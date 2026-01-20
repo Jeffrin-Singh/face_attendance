@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
+            color: #334155;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            background: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .logo { font-weight: 600; font-size: 1.2rem; color: #0f172a; }
+        .user-info { font-size: 0.9rem; color: #64748b; }
+
+        /* MAIN CONTENT */
+        .container {
+            margin-top: 40px;
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .video-wrapper {
+            background: #000;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        img {
+            border-radius: 8px;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ACTION BAR */
+        .action-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* FIX: This removes the underline from the links wrapping the buttons */
+        .action-bar a {
+            text-decoration: none;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+        .btn-excel { background: #10b981; color: white; } /* Green */
+        .btn-pdf { background: #ef4444; color: white; }   /* Red */
+        .btn-logout { background: #f1f5f9; color: #475569; }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            font-size: 14px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">System Dashboard</div>
+    <div class="user-info">Logged in as <strong>{{ username }}</strong></div>
+</nav>
+
+<div class="container">
+    <div class="video-wrapper">
+        <img src="/video_feed" width="640" alt="Live Feed">
+    </div>
+
+    <div class="action-bar">
+        <a href="/download_excel"><button class="btn-excel">Download Excel</button></a>
+        <a href="/download_pdf"><button class="btn-pdf">Download PDF</button></a>
+        <a href="/logout"><button class="btn-logout">Logout</button></a>
+    </div>
+</div>
+
+<div id="toast" class="toast">Notification Message</div>
+
+<script>
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerText = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    function checkPopup() {
+        fetch("/popup").then(res => res.text()).then(msg => {
+            if (msg) showToast(msg);
+        });
+    }
+    setInterval(checkPopup, 2000);
+</script>
+
+</body>
+</html>

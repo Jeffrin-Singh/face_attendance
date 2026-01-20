@@ -1,0 +1,24 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Face data & generated files
+dataset/
+embeddings.pkl
+trainer.yml
+
+# Attendance files
+attendance_*.csv
+attendance_*.xlsx
+attendance_*.pdf
+
+# User data
+users.csv
+
+# OS files
+.DS_Store
+Thumbs.db

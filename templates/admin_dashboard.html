@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 0;
+            color: #334155;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: white;
+            padding: 15px 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand { font-weight: 600; font-size: 1.1rem; color: #0f172a; }
+        
+        .nav-link {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: #ef4444; } /* Red on hover for logout */
+
+        /* MAIN CONTENT */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h2 { margin: 0; font-size: 1.5rem; color: #1e293b; }
+
+        /* CARD & TABLE */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Clips corners */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: #f8fafc;
+            padding: 16px 24px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #f8fafc; }
+
+        /* ACTION BUTTONS */
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-view {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe;
+        }
+        .btn-view:hover { background: #2563eb; color: white; border-color: #2563eb; }
+
+        .btn-excel {
+            color: #059669;
+            border: 1px solid #d1fae5;
+            background: #ecfdf5;
+        }
+        .btn-excel:hover { background: #059669; color: white; border-color: #059669; }
+
+        .btn-pdf {
+            color: #dc2626;
+            border: 1px solid #fee2e2;
+            background: #fef2f2;
+        }
+        .btn-pdf:hover { background: #dc2626; color: white; border-color: #dc2626; }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-brand">Admin Portal</div>
+    <a href="/logout" class="nav-link">Sign Out</a>
+</nav>
+
+<div class="container">
+    <div class="header-row">
+        <h2>User Management</h2>
+        </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th width="40%">Username</th>
+                    <th>Profile</th>
+                    <th>Export Data</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for u in users %}
+                <tr>
+                    <td><strong>{{ u }}</strong></td>
+                    <td>
+                        <a href="/admin/user/{{ u }}" class="btn btn-view">View Details</a>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <a href="/admin/download/{{ u }}/excel" class="btn btn-excel">Excel</a>
+                            <a href="/admin/download/{{ u }}/pdf" class="btn btn-pdf">PDF</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" style="text-align:center; color:#94a3b8; padding: 30px;">
+                        No users found in the system.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

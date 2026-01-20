@@ -1,0 +1,23 @@
+<h3>Attendance Record: <span style="color:#2563eb">{{ username }}</span></h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            </tr>
+    </thead>
+    <tbody>
+    {% for row in data %}
+    <tr>
+        {% for cell in row %}
+            <td>{{ cell }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="/admin" class="btn-back">← Back to Dashboard</a>
+<a href="/logout" class="btn-back">Logout</a>
